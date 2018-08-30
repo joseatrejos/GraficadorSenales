@@ -60,7 +60,39 @@ namespace GraficadorSeñales
             double tiempoFinal = double.Parse(txt_TiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txt_FrecuenciaDeMuestreo.Text);
 
-            SeñalSenoidal señal = new SeñalSenoidal(amplitud, fase, frecuencia);
+            SeñalSenoidal señal = new SeñalSenoidal();
+
+            plnGrafica.Points.Clear();
+
+            double periodoMuestreo = 1 / frecuenciaMuestreo;
+
+            for (double i = tiempoInicial; i <= tiempoFinal; i += periodoMuestreo)
+            {
+                double valorMuestra = señal.evaluar(i);
+
+                if (Math.Abs(valorMuestra) > señal.AmplitudMaxima)
+                {
+                    señal.AmplitudMaxima = Math.Abs(valorMuestra);
+
+                }
+
+                señal.Muestras.Add(new Muestra(i, valorMuestra));
+            }
+
+            // Sirve para recorrer una coleccion o arreglo
+            foreach (Muestra muestra in señal.Muestras)
+            {
+                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+            }
+        }
+
+        private void BotonGraficar_Rampa_Click(object sender, RoutedEventArgs e)
+        {
+            double tiempoInicial = double.Parse(txt_TiempoInicial.Text);
+            double tiempoFinal = double.Parse(txt_TiempoFinal.Text);
+            double frecuenciaMuestreo = double.Parse(txt_FrecuenciaDeMuestreo.Text);
+
+            SeñalRampa señal = new SeñalRampa();
 
             plnGrafica.Points.Clear();
 
@@ -72,7 +104,6 @@ namespace GraficadorSeñales
                 if (Math.Abs(valorMuestra) > señal.AmplitudMaxima)
                 {
                     señal.AmplitudMaxima = Math.Abs(valorMuestra);
-
                 }
 
                 señal.Muestras.Add(new Muestra(i, valorMuestra));
