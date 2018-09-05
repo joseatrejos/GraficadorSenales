@@ -60,7 +60,7 @@ namespace GraficadorSeñales
             double tiempoFinal = double.Parse(txt_TiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txt_FrecuenciaDeMuestreo.Text);
 
-            SeñalSenoidal señal = new SeñalSenoidal();
+            SeñalSenoidal señal = new SeñalSenoidal(amplitud, fase, frecuencia);
 
             plnGrafica.Points.Clear();
 
@@ -73,7 +73,6 @@ namespace GraficadorSeñales
                 if (Math.Abs(valorMuestra) > señal.AmplitudMaxima)
                 {
                     señal.AmplitudMaxima = Math.Abs(valorMuestra);
-
                 }
 
                 señal.Muestras.Add(new Muestra(i, valorMuestra));
@@ -82,8 +81,11 @@ namespace GraficadorSeñales
             // Sirve para recorrer una coleccion o arreglo
             foreach (Muestra muestra in señal.Muestras)
             {
-                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y/señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
             }
+
+            lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
+            lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
         }
 
         private void BotonGraficar_Rampa_Click(object sender, RoutedEventArgs e)
@@ -114,6 +116,10 @@ namespace GraficadorSeñales
             {
                 plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
             }
+
+            lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
+            lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
+
         }
     }
 }
