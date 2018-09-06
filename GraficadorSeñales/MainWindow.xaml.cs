@@ -81,8 +81,18 @@ namespace GraficadorSeñales
             // Sirve para recorrer una coleccion o arreglo
             foreach (Muestra muestra in señal.Muestras)
             {
-                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y/señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+                plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y/señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
             }
+
+            // Línea del Eje X
+            plnEjeX.Points.Clear();
+            plnEjeX.Points.Add(new Point(0, scrContenedor.Height / 2));
+            plnEjeX.Points.Add(new Point((tiempoFinal - tiempoInicial) * scrContenedor.Width, scrContenedor.Height / 2));
+
+            // Línea del Eje Y
+            plnEjeY.Points.Clear();
+            plnEjeY.Points.Add(new Point((-tiempoInicial) * scrContenedor.Width, 0));
+            plnEjeY.Points.Add(new Point((-tiempoInicial) * scrContenedor.Width, scrContenedor.Height));
 
             lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
             lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
@@ -114,9 +124,11 @@ namespace GraficadorSeñales
             // Sirve para recorrer una coleccion o arreglo
             foreach (Muestra muestra in señal.Muestras)
             {
+                // SIEMPRE, se debe de desplazar, luego rotar y por último, escalar.
                 plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
             }
 
+            // Valores de la Amplitud Máxima y Mínima
             lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
             lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
 
