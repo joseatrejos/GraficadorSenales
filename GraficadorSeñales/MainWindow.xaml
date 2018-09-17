@@ -23,7 +23,7 @@
         <TextBox x:Name="txt_TiempoFinal" HorizontalAlignment="Left" Height="23" Margin="566,34,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120"/>
         <TextBlock x:Name="lbl_FrecuenciaDeMuestreo" HorizontalAlignment="Left" Margin="468,78,0,0" TextWrapping="Wrap" Text="Frecuencia de Muestreo" VerticalAlignment="Top"/>
         <TextBox x:Name="txt_FrecuenciaDeMuestreo" HorizontalAlignment="Left" Height="23" Margin="468,99,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="126"/>
-        <Button x:Name="BotonGraficar" Content="Grafica Senoidal" HorizontalAlignment="Left" Margin="371,132,0,0" VerticalAlignment="Top" Width="158" Click="BotonGraficar_Click"/>
+        <Button x:Name="BotonGraficar" Content="Graficar" HorizontalAlignment="Left" Margin="545,155,0,0" VerticalAlignment="Top" Width="158" Click="BotonGraficar_Click"/>
         <ScrollViewer x:Name="scrContenedor" HorizontalAlignment="Left" Height="224" Margin="53,0,0,0" VerticalAlignment="Top" Width="739" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <Grid>
                 <Polyline Stroke="Blue" StrokeThickness="2" Name="plnGrafica"/>
@@ -31,9 +31,13 @@
                 <Polyline Stroke="Black" StrokeThickness="0.3" Name="plnEjeY"/>
             </Grid>
         </ScrollViewer>
-        <Button x:Name="BotonGraficar_Rampa" Content="Grafica Rampa" HorizontalAlignment="Left" Margin="574,132,0,0" VerticalAlignment="Top" Width="158" Click="BotonGraficar_Rampa_Click"/>
         <TextBlock x:Name="lbl_AmplitudMaxima" HorizontalAlignment="Left" Margin="26,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" FontSize="16"/>
         <TextBlock x:Name="lbl_AmplitudMinima" HorizontalAlignment="Left" Margin="26,186,0,0" Grid.Row="1" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" FontSize="16"/>
         <TextBlock x:Name="lbl_AmplitudCero" HorizontalAlignment="Left" Margin="26,99,0,0" Grid.Row="1" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" FontSize="16"/>
+        <ComboBox x:Name="cb_TipoSeñal" SelectedIndex="0" HorizontalAlignment="Left" Margin="376,153,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem>Señal Senoidal</ComboBoxItem>
+            <ComboBoxItem>Señal Rampa</ComboBoxItem>
+        </ComboBox>
+        <TextBlock x:Name="lbl_ComboBox" HorizontalAlignment="Left" Margin="376,135,0,0" TextWrapping="Wrap" Text="Tipo de Señal" VerticalAlignment="Top"/>
     </Grid>
 </Window>

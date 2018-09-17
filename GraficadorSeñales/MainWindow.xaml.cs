@@ -56,32 +56,54 @@ namespace GraficadorSeñales
             double amplitud = double.Parse(txt_Amplitud.Text);
             double fase = double.Parse(txt_Fase.Text);
             double frecuencia = double.Parse(txt_Frecuencia.Text);
+
             double tiempoInicial = double.Parse(txt_TiempoInicial.Text);
             double tiempoFinal = double.Parse(txt_TiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txt_FrecuenciaDeMuestreo.Text);
 
-            SeñalSenoidal señal = new SeñalSenoidal(amplitud, fase, frecuencia);
+            Señal señal;
 
-            plnGrafica.Points.Clear();
-
-            double periodoMuestreo = 1 / frecuenciaMuestreo;
-
-            for (double i = tiempoInicial; i <= tiempoFinal; i += periodoMuestreo)
+            switch (cb_TipoSeñal.SelectedIndex)
             {
-                double valorMuestra = señal.evaluar(i);
+                // Señal Senoidal
+                case 0:
+                    señal = new SeñalSenoidal(amplitud, fase, frecuencia);
+                    break;
 
-                if (Math.Abs(valorMuestra) > señal.AmplitudMaxima)
-                {
-                    señal.AmplitudMaxima = Math.Abs(valorMuestra);
-                }
+                // Señal Rampa
+                case 1:
+                    señal = new SeñalRampa();
+                    break;
 
-                señal.Muestras.Add(new Muestra(i, valorMuestra));
+                // Señal xxxxx
+                /* case 2:
+                    señal = new Señalyyyyy();
+                    break;
+                */
+
+                default:
+                    señal = null;
+                    break;
             }
 
-            // Sirve para recorrer una coleccion o arreglo
-            foreach (Muestra muestra in señal.Muestras)
+            señal.TiempoInicial = tiempoInicial;
+            señal.TiempoFinal = tiempoFinal;
+            señal.FrecuenciaMuestreo = frecuenciaMuestreo;
+
+            señal.construirSeñalDigital();
+
+            plnGrafica.Points.Clear(); 
+
+            if(señal != null)
             {
-                plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y/señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+                // Sirve para recorrer una coleccion o arreglo
+                foreach (Muestra muestra in señal.Muestras)
+                {
+                    plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+                }
+
+                lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
+                lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
             }
 
             // Línea del Eje X
@@ -93,45 +115,6 @@ namespace GraficadorSeñales
             plnEjeY.Points.Clear();
             plnEjeY.Points.Add(new Point((-tiempoInicial) * scrContenedor.Width, 0));
             plnEjeY.Points.Add(new Point((-tiempoInicial) * scrContenedor.Width, scrContenedor.Height));
-
-            lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
-            lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
-        }
-
-        private void BotonGraficar_Rampa_Click(object sender, RoutedEventArgs e)
-        {
-            double tiempoInicial = double.Parse(txt_TiempoInicial.Text);
-            double tiempoFinal = double.Parse(txt_TiempoFinal.Text);
-            double frecuenciaMuestreo = double.Parse(txt_FrecuenciaDeMuestreo.Text);
-
-            SeñalRampa señal = new SeñalRampa();
-
-            plnGrafica.Points.Clear();
-
-            double periodoMuestreo = 1 / frecuenciaMuestreo;
-            for (double i = tiempoInicial; i <= tiempoFinal; i += periodoMuestreo)
-            {
-                double valorMuestra = señal.evaluar(i);
-
-                if (Math.Abs(valorMuestra) > señal.AmplitudMaxima)
-                {
-                    señal.AmplitudMaxima = Math.Abs(valorMuestra);
-                }
-
-                señal.Muestras.Add(new Muestra(i, valorMuestra));
-            }
-
-            // Sirve para recorrer una coleccion o arreglo
-            foreach (Muestra muestra in señal.Muestras)
-            {
-                // SIEMPRE, se debe de desplazar, luego rotar y por último, escalar.
-                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
-            }
-
-            // Valores de la Amplitud Máxima y Mínima
-            lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
-            lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
-
         }
     }
 }
