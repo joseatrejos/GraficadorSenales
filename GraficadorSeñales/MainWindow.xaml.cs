@@ -53,10 +53,6 @@ namespace GraficadorSeñales
 
         private void BotonGraficar_Click(object sender, RoutedEventArgs e)
         {
-            double amplitud = double.Parse(txt_Amplitud.Text);
-            double fase = double.Parse(txt_Fase.Text);
-            double frecuencia = double.Parse(txt_Frecuencia.Text);
-
             double tiempoInicial = double.Parse(txt_TiempoInicial.Text);
             double tiempoFinal = double.Parse(txt_TiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txt_FrecuenciaDeMuestreo.Text);
@@ -67,7 +63,11 @@ namespace GraficadorSeñales
             {
                 // Señal Senoidal
                 case 0:
-                    señal = new SeñalSenoidal(amplitud, fase, frecuencia);
+                    /*double amplitud = double.Parse(txt_Amplitud.Text);
+                    double fase = double.Parse(txt_Fase.Text);
+                    double frecuencia = double.Parse(txt_Frecuencia.Text);*/
+
+                    señal = new SeñalSenoidal(5, 0, 8);
                     break;
 
                 // Señal Rampa
@@ -115,6 +115,27 @@ namespace GraficadorSeñales
             plnEjeY.Points.Clear();
             plnEjeY.Points.Add(new Point((-tiempoInicial) * scrContenedor.Width, 0));
             plnEjeY.Points.Add(new Point((-tiempoInicial) * scrContenedor.Width, scrContenedor.Height));
+        }
+
+        private void cb_TipoSeñal_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (panelConfiguracion != null)
+            {
+                panelConfiguracion.Children.Clear();
+                switch (cb_TipoSeñal.SelectedIndex)
+                {
+                    // Señal Senoidal
+                    case 0:
+                        panelConfiguracion.Children.Add(new ConfiguracionSeñalSenoidal());
+                        break;
+
+                    // Señal Rampa
+                    case 1:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }
