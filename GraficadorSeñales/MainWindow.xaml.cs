@@ -63,11 +63,11 @@ namespace GraficadorSeñales
             {
                 // Señal Senoidal
                 case 0:
-                    /*double amplitud = double.Parse(txt_Amplitud.Text);
-                    double fase = double.Parse(txt_Fase.Text);
-                    double frecuencia = double.Parse(txt_Frecuencia.Text);*/
+                    double amplitud = double.Parse(((ConfiguracionSeñalSenoidal)(panelConfiguracion.Children[0])).txt_Amplitud.Text);
+                    double fase = double.Parse(((ConfiguracionSeñalSenoidal)(panelConfiguracion.Children[0])).txt_Fase.Text);
+                    double frecuencia = double.Parse(((ConfiguracionSeñalSenoidal)(panelConfiguracion.Children[0])).txt_Frecuencia.Text);
 
-                    señal = new SeñalSenoidal(5, 0, 8);
+                    señal = new SeñalSenoidal(amplitud, fase, frecuencia);
                     break;
 
                 // Señal Rampa
@@ -119,22 +119,19 @@ namespace GraficadorSeñales
 
         private void cb_TipoSeñal_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (panelConfiguracion != null)
+            panelConfiguracion.Children.Clear();
+            switch (cb_TipoSeñal.SelectedIndex)
             {
-                panelConfiguracion.Children.Clear();
-                switch (cb_TipoSeñal.SelectedIndex)
-                {
-                    // Señal Senoidal
-                    case 0:
-                        panelConfiguracion.Children.Add(new ConfiguracionSeñalSenoidal());
-                        break;
-
-                    // Señal Rampa
-                    case 1:
-                        break;
-                    default:
-                        break;
-                }
+                // Señal Senoidal
+                case 0:
+                    panelConfiguracion.Children.Add(new ConfiguracionSeñalSenoidal());
+                    break;
+                    
+                // Señal Rampa
+                case 1:
+                    break;
+                default:
+                    break;
             }
         }
     }
