@@ -75,11 +75,11 @@ namespace GraficadorSeñales
                     señal = new SeñalRampa();
                     break;
 
-                // Señal xxxxx
-                /* case 2:
-                    señal = new Señalyyyyy();
+                // Señal Exponencial
+                case 2:
+                    double alpha = double.Parse(((ConfiguracionSeñalExponencial)(panelConfiguracion.Children[0])).txt_Alpha.Text);
+                    señal = new SeñalExponencial(alpha);
                     break;
-                */
 
                 default:
                     señal = null;
@@ -131,6 +131,11 @@ namespace GraficadorSeñales
                 case 1:
                     break;
                 default:
+                    break;
+
+                // Señal Senoidal
+                case 2:
+                    panelConfiguracion.Children.Add(new ConfiguracionSeñalExponencial());
                     break;
             }
         }

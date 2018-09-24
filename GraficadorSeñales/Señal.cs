@@ -16,6 +16,7 @@ namespace GraficadorSeñales
         public double FrecuenciaMuestreo { get; set; }
         public double TiempoInicial { get; set; }
         public double TiempoFinal { get; set; }
+        public double Alpha { get; set; }
 
         abstract public double evaluar(double tiempo);
 
