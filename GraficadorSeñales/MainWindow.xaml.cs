@@ -63,8 +63,15 @@ namespace GraficadorSeñales
             señal.TiempoInicial = tiempoInicial;
             señal.TiempoFinal = tiempoFinal;
             señal.FrecuenciaMuestreo = frecuenciaMuestreo;
-
+            
             señal.construirSeñalDigital();
+
+            // Truncar
+            if ((bool)ckb_Truncado.IsChecked)
+            {
+                double n = double.Parse(txt_Truncado.Text);
+                señal.truncar(n);
+            }
 
             // Escalar
             if ((bool)ckb_Escala.IsChecked)
