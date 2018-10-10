@@ -100,8 +100,8 @@ namespace GraficadorSeñales
                     plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
                 }
 
-                lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString();
-                lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString();
+                lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString("F");
+                lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString("F");
             }
 
             // Línea del Eje X
@@ -134,6 +134,30 @@ namespace GraficadorSeñales
                 // Señal Senoidal
                 case 2:
                     panelConfiguracion.Children.Add(new ConfiguracionSeñalExponencial());
+                    break;
+            }
+        }
+
+        // !!!!!!!!!!!!!!!!     SEGUNDA SEÑAL   !!!!!!!!!!!!!!!!!
+        private void cb_TipoSeñal_SelectionChanged2(object sender, SelectionChangedEventArgs e)
+        {
+            panelConfiguracion.Children.Clear();
+            switch (cb_TipoSeñal.SelectedIndex)
+            {
+                // Señal Senoidal
+                case 0:
+                    panelConfiguracion_2.Children.Add(new ConfiguracionSeñalSenoidal());
+                    break;
+
+                // Señal Rampa
+                case 1:
+                    break;
+                default:
+                    break;
+
+                // Señal Senoidal
+                case 2:
+                    panelConfiguracion_2.Children.Add(new ConfiguracionSeñalExponencial());
                     break;
             }
         }
