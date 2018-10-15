@@ -32,6 +32,7 @@ namespace GraficadorSeñales
             double frecuenciaMuestreo = double.Parse(txt_FrecuenciaDeMuestreo.Text);
 
             Señal señal;
+            Señal señal_2;
 
             switch (cb_TipoSeñal.SelectedIndex)
             {
@@ -60,14 +61,54 @@ namespace GraficadorSeñales
                     break;
             }
 
+            switch (cb_TipoSeñal_2.SelectedIndex)
+            {
+                // Señal Senoidal
+                case 0:
+                    double amplitud = double.Parse(((ConfiguracionSeñalSenoidal)(panelConfiguracion_2.Children[0])).txt_Amplitud.Text);
+                    double fase = double.Parse(((ConfiguracionSeñalSenoidal)(panelConfiguracion_2.Children[0])).txt_Fase.Text);
+                    double frecuencia = double.Parse(((ConfiguracionSeñalSenoidal)(panelConfiguracion_2.Children[0])).txt_Frecuencia.Text);
+
+                    señal_2 = new SeñalSenoidal(amplitud, fase, frecuencia);
+                    break;
+
+                // Señal Rampa
+                case 1:
+                    señal_2 = new SeñalRampa();
+                    break;
+
+                // Señal Exponencial
+                case 2:
+                    double alpha = double.Parse(((ConfiguracionSeñalExponencial)(panelConfiguracion_2.Children[0])).txt_Alpha.Text);
+                    señal_2 = new SeñalExponencial(alpha);
+                    break;
+
+                default:
+                    señal_2 = null;
+                    break;
+            }
+
+            // Primer Señal
             señal.TiempoInicial = tiempoInicial;
             señal.TiempoFinal = tiempoFinal;
             señal.FrecuenciaMuestreo = frecuenciaMuestreo;
+
+            // Segunda Señal
+            señal_2.TiempoInicial = tiempoInicial;
+            señal_2.TiempoFinal = tiempoFinal;
+            señal_2.FrecuenciaMuestreo = frecuenciaMuestreo;
             
             señal.construirSeñalDigital();
+            señal_2.construirSeñalDigital();
 
             // Truncar
             if ((bool)ckb_Truncado.IsChecked)
+            {
+                double n = double.Parse(txt_Truncado.Text);
+                señal.truncar(n);
+            }
+
+            if ((bool)ckb_Truncado_2.IsChecked)
             {
                 double n = double.Parse(txt_Truncado.Text);
                 señal.truncar(n);
@@ -80,6 +121,12 @@ namespace GraficadorSeñales
                 señal.escalar(factorEscala);
             }
 
+            if((bool)ckb_Escala_2.IsChecked)
+            {
+                double factorEscala = double.Parse(txt_EscalaAmplitud.Text);
+                señal.escalar(factorEscala);
+            }
+
             // Desplazar
             if ((bool)ckb_Desplazamiento.IsChecked)
             {
@@ -87,12 +134,31 @@ namespace GraficadorSeñales
                 señal.desplazar(factorDesplazamiento);
             }
 
+            if ((bool)ckb_Desplazamiento_2.IsChecked)
+            {
+                double factorDesplazamiento = double.Parse(txt_Desplazamiento.Text);
+                señal.desplazar(factorDesplazamiento);
+            }
+
             // Actualizar
             señal.actualizarAmplitudMaxima();
+            señal_2.actualizarAmplitudMaxima();
             
             plnGrafica.Points.Clear(); 
 
             if(señal != null)
+            {
+                // Sirve para recorrer una coleccion o arreglo
+                foreach (Muestra muestra in señal.Muestras)
+                {
+                    plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+                }
+
+                lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString("F");
+                lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString("F");
+            }
+
+            if (señal_2 != null)
             {
                 // Sirve para recorrer una coleccion o arreglo
                 foreach (Muestra muestra in señal.Muestras)
@@ -115,6 +181,8 @@ namespace GraficadorSeñales
             plnEjeY.Points.Add(new Point((-tiempoInicial) * scrContenedor.Width, scrContenedor.Height));
         }
 
+
+        // Combo Box de la Primera Señal
         private void cb_TipoSeñal_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             panelConfiguracion.Children.Clear();
@@ -128,21 +196,22 @@ namespace GraficadorSeñales
                 // Señal Rampa
                 case 1:
                     break;
-                default:
-                    break;
 
                 // Señal Senoidal
                 case 2:
                     panelConfiguracion.Children.Add(new ConfiguracionSeñalExponencial());
                     break;
+                    
+                default:
+                    break;
             }
         }
 
-        // !!!!!!!!!!!!!!!!     SEGUNDA SEÑAL   !!!!!!!!!!!!!!!!!
-        private void cb_TipoSeñal_SelectionChanged2(object sender, SelectionChangedEventArgs e)
+        // Combo Box de la Segunda Señal
+        private void cb_TipoSeñal_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
         {
-            panelConfiguracion.Children.Clear();
-            switch (cb_TipoSeñal.SelectedIndex)
+            panelConfiguracion_2.Children.Clear();
+            switch(cb_TipoSeñal_2.SelectedIndex)
             {
                 // Señal Senoidal
                 case 0:
@@ -151,13 +220,15 @@ namespace GraficadorSeñales
 
                 // Señal Rampa
                 case 1:
-                    break;
-                default:
+                    
                     break;
 
-                // Señal Senoidal
+                // Señal Exponencial
                 case 2:
                     panelConfiguracion_2.Children.Add(new ConfiguracionSeñalExponencial());
+                    break;
+
+                default:
                     break;
             }
         }
