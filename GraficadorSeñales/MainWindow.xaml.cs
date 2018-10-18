@@ -20,6 +20,7 @@ namespace GraficadorSeñales
     /// </summary>
     public partial class MainWindow : Window
     {
+        double amplitudMaxima = 1;
         public MainWindow()
         {
             InitializeComponent();
@@ -143,31 +144,41 @@ namespace GraficadorSeñales
             // Actualizar
             señal.actualizarAmplitudMaxima();
             señal_2.actualizarAmplitudMaxima();
-            
-            plnGrafica.Points.Clear(); 
 
-            if(señal != null)
+            // Definición de la amplitud máxima en función de la señal de mayor amplitud
+            if(señal.AmplitudMaxima > señal_2.AmplitudMaxima)
+            {
+                amplitudMaxima = señal.AmplitudMaxima;
+            }
+            else
+            {
+                amplitudMaxima = señal_2.AmplitudMaxima;
+            }
+
+            // Limpieza de polylines
+            plnGrafica.Points.Clear();
+            plnGrafica_2.Points.Clear();
+
+            // Impresión de la amplitud máxima en los labels de la ventana.
+            lbl_AmplitudMaxima.Text = amplitudMaxima.ToString("F");
+            lbl_AmplitudMinima.Text = "-" + amplitudMaxima.ToString("F");
+
+            if (señal != null)
             {
                 // Sirve para recorrer una coleccion o arreglo
                 foreach (Muestra muestra in señal.Muestras)
                 {
-                    plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+                    plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / amplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
                 }
-
-                lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString("F");
-                lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString("F");
             }
 
             if (señal_2 != null)
             {
-                // Sirve para recorrer una coleccion o arreglo
-                foreach (Muestra muestra in señal.Muestras)
+                // Recorrido de la colección de muestras de la señal 2
+                foreach (Muestra muestra in señal_2.Muestras)
                 {
-                    plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / señal.AmplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
+                    plnGrafica_2.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / amplitudMaxima * ((scrContenedor.Height / 2) - 30) * -1 + (scrContenedor.Height / 2))));
                 }
-
-                lbl_AmplitudMaxima.Text = señal.AmplitudMaxima.ToString("F");
-                lbl_AmplitudMinima.Text = "-" + señal.AmplitudMaxima.ToString("F");
             }
 
             // Línea del Eje X
