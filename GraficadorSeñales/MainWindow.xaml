@@ -63,9 +63,10 @@
         <TextBox x:Name="txt_Truncado_2" HorizontalAlignment="Left" Height="23" Margin="476,123,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
         <CheckBox x:Name="ckb_Truncado_2" Content="" HorizontalAlignment="Left" Margin="598,127,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="lbl_Operacion" HorizontalAlignment="Left" Margin="476,163,0,0" TextWrapping="Wrap" Text="Operación" VerticalAlignment="Top" RenderTransformOrigin="0.528,4.386"/>
-        <ComboBox x:Name="cb_TipoOperacion" HorizontalAlignment="Left" Margin="476,183,0,0" VerticalAlignment="Top" Width="120">
+        <ComboBox x:Name="cb_TipoOperacion" SelectedIndex="0" HorizontalAlignment="Left" Margin="476,183,0,0" VerticalAlignment="Top" Width="120">
             <ComboBoxItem Content="Suma"/>
             <ComboBoxItem Content="Multiplicación"/>
+            <ComboBoxItem Content="Convolución"/>
         </ComboBox>
         <Button x:Name="BotonOperacion" Content="Realizar Operación" HorizontalAlignment="Left" Margin="476,212,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.507,1.8" Click="BotonOperacion_Click"/>
         <ScrollViewer x:Name="scrContenedor_Resultado" HorizontalAlignment="Left" Height="177" Margin="53,47,0,0" VerticalAlignment="Top" Width="739" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
