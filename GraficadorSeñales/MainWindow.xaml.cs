@@ -59,6 +59,11 @@ namespace GraficadorSeñales
                     señal = new SeñalExponencial(alpha);
                     break;
 
+                // Señal Rectangular
+                case 3:
+                    señal = new SeñalRectangular();
+                    break;
+
                 default:
                     señal = null;
                     break;
@@ -84,6 +89,11 @@ namespace GraficadorSeñales
                 case 2:
                     double alpha = double.Parse(((ConfiguracionSeñalExponencial)(panelConfiguracion_2.Children[0])).txt_Alpha.Text);
                     señal_2 = new SeñalExponencial(alpha);
+                    break;
+
+                // Señal Rectangular
+                case 3:
+                    señal_2 = new SeñalRectangular();
                     break;
 
                 default:
@@ -214,7 +224,11 @@ namespace GraficadorSeñales
                 case 2:
                     panelConfiguracion.Children.Add(new ConfiguracionSeñalExponencial());
                     break;
-                    
+
+                // Señal Rectangular
+                case 3:
+                    break;
+
                 default:
                     break;
             }
@@ -239,6 +253,10 @@ namespace GraficadorSeñales
                 // Señal Exponencial
                 case 2:
                     panelConfiguracion_2.Children.Add(new ConfiguracionSeñalExponencial());
+                    break;
+
+                // Señal Rectangular
+                case 3:
                     break;
 
                 default:
@@ -267,7 +285,6 @@ namespace GraficadorSeñales
                     break;
 
                 default:
-
                     break;
             }
 
